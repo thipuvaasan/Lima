@@ -14,12 +14,12 @@
 #   Test Package:              'Ctrl + Shift + T'
 
 
-get_table_data <- function(tablename,IP) {
+get_table_data <- function(tablename) {
   library(rJava)
   library(RJDBC)
   sql_query = paste("SELECT * FROM ",tablename)
   jdbcDriver <- JDBC(driverClass="org.apache.ignite.IgniteJdbcThinDriver", classPath="/opt/ignite-core-2.7.0.jar")
-  jdbcConnection <- dbConnect(jdbcDriver, paste("jdbc:ignite:thin://",IP), "", "")
+  jdbcConnection <- dbConnect(jdbcDriver, paste("jdbc:ignite:thin://10.34.121.188"), "ignite", "ignite")
   workflow_dataframe <- dbGetQuery(jdbcConnection, sql_query)
   workflow_dataframe
 }
