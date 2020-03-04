@@ -23,3 +23,20 @@ get_table_data <- function(tablename) {
   workflow_dataframe <- dbGetQuery(jdbcConnection, sql_query)
   workflow_dataframe
 }
+
+read_hdfs <- function (filename) 
+{
+  library(sparklyr)
+  
+  sparkconf <- spark_config()
+  sparkconf$`sparklyr.shell.driver-java-options` <- sprintf("-Djava.io.tmpdir=%s", "tmp")
+  sparkconf$`sparklyr.shell.driver-memory` <- "4G"
+  sparkconf$`sparklyr.shell.executor-memory` <- "30G"
+  
+  sc <- spark_connect(master = "local[*]",config = sparkconf)
+  
+  #read data from hdfs
+  hdfs <- spark_read_csv(sc, name="df",delimiter =",",
+                       path="hdfs://10.34.121.184:9000/",filename)
+  print(hdfs)
+}
