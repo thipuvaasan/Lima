@@ -24,6 +24,14 @@ get_table_data <- function(tablename) {
   workflow_dataframe
 }
 
+put_table_data <- function(tablename) {
+  library(rJava)
+  library(RJDBC)
+  jdbcDriver <- JDBC(driverClass="org.apache.ignite.IgniteJdbcThinDriver", classPath="/opt/ignite-core-2.7.0.jar")
+  jdbcConnection <- dbConnect(jdbcDriver, paste("jdbc:ignite:thin://10.34.121.188"), "ignite", "ignite")
+  workflow_dataframe <- dbGetQuery(jdbcConnection, sql_query)
+}
+
 read_hdfs <- function (filename) 
 {
   library(sparklyr)
