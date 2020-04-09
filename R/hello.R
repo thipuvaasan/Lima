@@ -61,6 +61,6 @@ write_hdfs <- function (data, filename)
   url <- "hdfs://10.34.121.184:9000/"
   filepath = paste(url,filename,sep="")
   spark_write_csv(data, path = filepath, header = TRUE, delimiter = ",")
-  print(spark_write_csv)
+  print("File successfully saved to hdfs")
 }
 
