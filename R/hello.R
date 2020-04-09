@@ -52,15 +52,15 @@ read_hdfs <- function (filename)
 write_hdfs <- function (data, filename) 
 {
   library(sparklyr)
-  
   sparkconf <- spark_config()
-  sparkconf$`sparklyr.shell.driver-java-options` <- sprintf("-Djava.io.tmpdir=%s", "tmp")
+  sparkconf$`sparklyr.shell.driver-java-options` <- sprintf("-Djava.io.tmpdir=%s", 
+                                                            "tmp")
   sparkconf$`sparklyr.shell.driver-memory` <- "4G"
   sparkconf$`sparklyr.shell.executor-memory` <- "30G"
-  
-  sc <- spark_connect(master = "local[*]",config = sparkconf)
-  
-  spark_write_csv(data, path="hdfs://10.34.121.184:9000/",filename,
-                header = TRUE, delimiter = ",")
-  print(hdfs)
+  sc <- spark_connect(master = "local[*]", config = sparkconf)
+  url <- "hdfs://10.34.121.184:9000/"
+  filepath = paste(url,filename,sep="")
+  spark_write_csv(data, path = filepath, header = TRUE, delimiter = ",")
+  print(spark_write_csv)
 }
+
